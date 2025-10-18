@@ -1,0 +1,252 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>EquiLock Sign Up</title>
+<style>
+  body {
+    font-family: 'Poppins', sans-serif;
+    background-color: #e6f0ff;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+  }
+
+  .container {
+    background-color: white;
+    padding: 30px;
+    border-radius: 16px;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+    width: 90%;
+    max-width: 450px;
+  }
+
+  .header {
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    margin-bottom: 20px;
+  }
+
+  .header h1 {
+    color: #0d1b6b;
+    font-size: 28px;
+    margin: 0;
+  }
+
+  h2 {
+    text-align: center;
+    color: #333;
+    margin-bottom: 20px;
+  }
+
+  form {
+    display: flex;
+    flex-direction: column;
+  }
+
+  input, select {
+    margin-bottom: 15px;
+    padding: 10px;
+    border-radius: 8px;
+    border: 1px solid #ccc;
+    font-size: 15px;
+  }
+
+  button {
+    background-color: #1b4dd8;
+    color: white;
+    padding: 12px;
+    border: none;
+    border-radius: 8px;
+    font-size: 16px;
+    cursor: pointer;
+  }
+
+  button:hover {
+    background-color: #163fad;
+  }
+
+  .privacy {
+    font-size: 14px;
+    color: #444;
+    text-align: left;
+    margin-top: 10px;
+    margin-bottom: 10px;
+  }
+
+  .checkbox-group {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    justify-content: flex-start;
+    text-align: left;
+  }
+
+  .checkbox-group label {
+    font-size: 14px;
+    color: #333;
+  }
+
+  /* ---------- MODAL STYLES ---------- */
+  .modal {
+    display: none;
+    position: fixed;
+    z-index: 999;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    overflow: auto;
+    background-color: rgba(0,0,0,0.5);
+  }
+
+  .modal-content {
+    background-color: white;
+    margin: 5% auto;
+    padding: 25px;
+    border-radius: 12px;
+    width: 90%;
+    max-width: 600px;
+    max-height: 80vh;
+    overflow-y: auto;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+  }
+
+  .modal h3 {
+    color: #0d1b6b;
+    margin-top: 0;
+    text-align: center;
+  }
+
+  .close {
+    color: #aaa;
+    float: right;
+    font-size: 22px;
+    font-weight: bold;
+    cursor: pointer;
+  }
+
+  .close:hover {
+    color: #000;
+  }
+
+  @media (max-width: 480px) {
+    .container {
+      padding: 20px;
+    }
+    .header h1 {
+      font-size: 22px;
+    }
+  }
+</style>
+</head>
+<body>
+
+<div class="container">
+  <div class="header">
+    <h1>EquiLock</h1>
+  </div>
+
+  <h2>Sign Up</h2>
+
+  <form id="signupForm" action="https://unlibelled-chaotically-dede.ngrok-free.dev/submit" method="POST">
+    <input type="text" name="fullname" placeholder="Full Name" required>
+    <input type="email" name="email" placeholder="Email" required>
+    <input type="text" name="id_number" placeholder="ID Number" required pattern="[0-9]{4}-[0-9]{4}">
+
+    <select name="role" required>
+      <option value="" disabled selected>Select Role</option>
+      <option value="student">Student</option>
+      <option value="faculty">Faculty</option>
+    </select>
+
+    <p class="privacy">
+      By signing up, you agree to our 
+      <a href="#" id="openModal"><strong>Data Privacy and Consent Form</strong></a>.
+    </p>
+
+    <div class="checkbox-group">
+      <input type="checkbox" id="agree" name="agree">
+      <label for="agree">I have read and agree to the Data Privacy and Consent Form.</label>
+    </div>
+
+    <button type="submit">Sign Up</button>
+  </form>
+</div>
+
+<!-- ---------- DATA PRIVACY MODAL ---------- -->
+<div id="privacyModal" class="modal">
+  <div class="modal-content">
+    <span class="close" id="closeModal">&times;</span>
+    <h3>Data Privacy and Consent Form</h3>
+    <p>
+      This system collects and stores certain personal information to verify the identity of authorized users and ensure the security of equipment and facilities. 
+      By proceeding with the registration, you acknowledge that you understand and agree to the processing of your data as described below.
+    </p>
+    <h4>Information We Collect</h4>
+    <ul>
+      <li>Full Name</li>
+      <li>ID Number</li>
+      <li>Email Address</li>
+      <li>Short Video Clip (for security verification only)</li>
+    </ul>
+    <h4>Purpose of Data Use</h4>
+    <p>
+      Your data will be used solely to verify identity, maintain records of access and borrowing, and enhance the security of the system. 
+      The video clip will be used only for security purposes and will not be shared or distributed.
+    </p>
+    <h4>Data Storage and Protection</h4>
+    <p>
+      All information is stored securely in a protected database accessible only to authorized personnel. 
+      Data will be retained only as long as necessary for security and operational purposes, after which it will be safely deleted.
+    </p>
+    <h4>Your Rights</h4>
+    <p>
+      Under the Data Privacy Act of 2012 (RA 10173), you have the right to access, correct, and request deletion of your data, and to be informed of how it is processed.
+    </p>
+    <h4>Consent</h4>
+    <p>
+      By checking the consent box and signing up, you confirm that you have read and understood this Data Privacy and Consent Form, 
+      and that you voluntarily agree to the collection, recording, and processing of your personal information for the stated purposes.
+    </p>
+  </div>
+</div>
+
+<script>
+  // Modal controls
+  const modal = document.getElementById("privacyModal");
+  const openModal = document.getElementById("openModal");
+  const closeModal = document.getElementById("closeModal");
+
+  openModal.onclick = function(e) {
+    e.preventDefault();
+    modal.style.display = "block";
+  }
+
+  closeModal.onclick = function() {
+    modal.style.display = "none";
+  }
+
+  window.onclick = function(event) {
+    if (event.target == modal) {
+      modal.style.display = "none";
+    }
+  }
+
+  // Checkbox validation
+  document.getElementById("signupForm").addEventListener("submit", function(event) {
+    const checkbox = document.getElementById("agree");
+    if (!checkbox.checked) {
+      event.preventDefault();
+      alert("⚠️ Please read and agree to the Data Privacy and Consent Form before signing up.");
+    }
+  });
+</script>
+
+</body>
+</html>
