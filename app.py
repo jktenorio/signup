@@ -7,23 +7,25 @@ app = Flask(__name__)
 # ---------- DATABASE SETUP ----------
 def get_db_connection():
     """Create and return a connection to the SQLite database with timeout."""
+    # Timeout ensures the app waits if the database is locked
     conn = sqlite3.connect('users.db', timeout=10)
     conn.row_factory = sqlite3.Row
     return conn
 
 def init_db():
     """Initialize the users table with UNIQUE idnumber if it doesn’t exist."""
-    conn = get_db_connection()
-    cursor = conn.cursor()
-    cursor.execute('''CREATE TABLE IF NOT EXISTS users (
-                        id INTEGER PRIMARY KEY AUTOINCREMENT,
-                        fullname TEXT NOT NULL,
-                        email TEXT NOT NULL,
-                        idnumber TEXT UNIQUE NOT NULL,
-                        role TEXT NOT NULL
-                    )''')
-    conn.commit()
-    conn.close()
+    with get_db_connection() as conn:
+        cursor = conn.cursor()
+        cursor.execute('''
+            CREATE TABLE IF NOT EXISTS users (
+                id INTEGER PRIMARY KEY AUTOINCREMENT,
+                fullname TEXT NOT NULL,
+                email TEXT NOT NULL,
+                idnumber TEXT UNIQUE NOT NULL,
+                role TEXT NOT NULL
+            )
+        ''')
+        conn.commit()
 
 # ---------- ROUTES ----------
 @app.route('/')
@@ -42,16 +44,16 @@ def submit():
         return "<h2>⚠️ Please agree to the Data Privacy Terms and Conditions.</h2>"
 
     try:
-        conn = get_db_connection()
-        cursor = conn.cursor()
-        cursor.execute(
-            "INSERT INTO users (fullname, email, idnumber, role) VALUES (?, ?, ?, ?)",
-            (fullname, email, idnumber, role)
-        )
-        conn.commit()
-        conn.close()
+        # Use context manager to ensure connection closes automatically
+        with get_db_connection() as conn:
+            cursor = conn.cursor()
+            cursor.execute(
+                "INSERT INTO users (fullname, email, idnumber, role) VALUES (?, ?, ?, ?)",
+                (fullname, email, idnumber, role)
+            )
+            conn.commit()
 
-        # Success message instead of separate thankyou page
+        # Success message
         return "<h2>✅ Registration successful!</h2>"
 
     except sqlite3.IntegrityError:
