@@ -44,7 +44,7 @@ def submit():
         return "<h2>⚠️ Please agree to the Data Privacy Terms and Conditions.</h2>"
 
     # ✅ Validate ID format (####-####)
-    if not re.match(r'^\d{4}-\d{4}$', idnumber):
+    if not re.match(r'^\d{4}-\d{4,5}$', idnumber):
         return "<h2>⚠️ Invalid ID number format. Use ####-#### (e.g., 0222-0282).</h2>"
 
     # ✅ Validate role (must be Student or Faculty)
